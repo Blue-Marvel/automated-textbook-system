@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "299319567459",
+    "project_id": "automated-textbook-system",
+    "storage_bucket": "automated-textbook-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299319567459:android:d7279285d9812f1009c456",
+        "android_client_info": {
+          "package_name": "com.example.automated_texbook_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmoMAEQU7T1PG5pIlUpCLeBOsWkSVLRew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
