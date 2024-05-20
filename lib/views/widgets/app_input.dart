@@ -40,6 +40,8 @@ class _AppInputFieldState extends State<AppInputField> {
       child: Column(
         children: [
           Card(
+            color: Colors.white,
+            surfaceTintColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),

@@ -26,11 +26,10 @@ class _LibrarianDashboardScreenState
     extends ConsumerState<LibrarianDashboardScreen> {
   int value = 0;
   bool addBook = false;
-  late Future<List<TextBook>> bookFuture;
 
   @override
   void initState() {
-    bookFuture = ref.read(uploadProvider).getBooks();
+    ref.read(uploadProvider).setBookFuture();
     super.initState();
   }
 
@@ -47,40 +46,38 @@ class _LibrarianDashboardScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Home",
-          style: TextStyle(
+        title: Text(
+          addBook ? "Add Book" : "Home",
+          style: const TextStyle(
             color: Color.fromARGB(255, 17, 108, 154),
+            fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
-          TextButton(
+          ElevatedButton(
             onPressed: () => setState(() => addBook = !addBook),
-            child: Text(addBook ? 'Preview' : 'Add Book'),
+            child: Text(addBook ? 'Back Home' : 'Add Book'),
           ),
-          Gap(8.w),
-          TextButton(
-            onPressed: () {},
-            child: const Text('Departments'),
-          ),
-          Gap(8.w),
-          TextButton(
+          Gap(16.w),
+          ElevatedButton(
             onPressed: () {},
             child: const Text('Profile'),
           ),
-          Gap(8.w),
+          Gap(16.w),
           ElevatedButton.icon(
             onPressed: logout,
             icon: const Icon(Icons.logout),
             label: const Text('Logout'),
           ),
+          Gap(16.w),
         ],
       ),
       body: SingleChildScrollView(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             FutureBuilder(
-              future: bookFuture,
+              future: ref.read(uploadProvider).bookFuture,
               builder: (BuildContext context,
                   AsyncSnapshot<List<TextBook>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -124,26 +121,17 @@ class _LibrarianDashboardScreenState
             ),
             addBook
                 ? const AddBook()
-                : FutureBuilder(
-                    future: ref.read(uploadProvider).getBooks(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-
-                      if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      }
-
-                      if (snapshot.data == null || snapshot.data!.isEmpty) {
-                        return const Text('No Textbook added yet');
-                      }
-
-                      final data = snapshot.data!;
-                      return TextBookDetailCard(
-                        textBook: data[value],
-                      );
-                    }),
+                : ref.watch(uploadProvider).textBookList.isNotEmpty
+                    ? TextBookDetailCard(
+                        textBook: ref.read(uploadProvider).textBookList[value],
+                      )
+                    : SizedBox(
+                        height: 1.sh,
+                        width: 0.4.sw,
+                        child: const Center(
+                          child: Text('No Textbook added yet'),
+                        ),
+                      ),
           ],
         ),
       ),

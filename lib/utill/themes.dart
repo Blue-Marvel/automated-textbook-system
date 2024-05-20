@@ -10,8 +10,8 @@ class AppThemeData {
       cardColor: AppColor.backgroundColor,
       appBarTheme: const AppBarTheme(backgroundColor: AppColor.backgroundColor),
       textTheme: const TextTheme(
-          bodyMedium: TextStyle(
-              color: AppColor.greyTextColor, fontStyle: FontStyle.italic),
+          bodyMedium:
+              TextStyle(color: AppColor.textColor, fontStyle: FontStyle.italic),
           titleMedium: TextStyle(
               color: AppColor.textColor, fontWeight: FontWeight.bold)),
       cardTheme: const CardTheme(color: AppColor.backgroundColor),

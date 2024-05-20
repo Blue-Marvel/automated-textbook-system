@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 final GoRouter routes = GoRouter(
   routes: [
     GoRoute(
-      path: '/a',
+      path: '/',
       builder: (context, state) => const RegisterScreen(),
     ),
     GoRoute(
@@ -15,8 +15,8 @@ final GoRouter routes = GoRouter(
       builder: (context, state) => const LibrarianRegister(),
     ),
     GoRoute(
-      // path: LibrarianDashboardScreen.routeName,
-      path: '/',
+      path: LibrarianDashboardScreen.routeName,
+      // path: '/',
       builder: (context, state) => const LibrarianDashboardScreen(),
     ),
     GoRoute(

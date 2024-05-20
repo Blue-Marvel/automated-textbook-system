@@ -52,7 +52,7 @@ class HomeListCard extends StatelessWidget {
                     Text(
                       textBook.description,
                       softWrap: true,
-                      maxLines: 4,
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const Spacer(),

@@ -11,6 +11,7 @@ import 'package:automated_texbook_system/views/widgets/department_dialog.dart';
 import 'package:automated_texbook_system/views/widgets/flash_bar.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -80,7 +81,7 @@ class _AddBookState extends ConsumerState<AddBook> {
 
       await ref.read(uploadProvider).addBook(textBook: textBook, file: file);
       ref.read(uploadProvider).department.clear();
-      await ref.read(uploadProvider).getBooks();
+      ref.read(uploadProvider).setBookFuture();
     } catch (e) {
       FlashTopBar.flashBar(context, e.toString());
     }
@@ -92,107 +93,108 @@ class _AddBookState extends ConsumerState<AddBook> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 0.5.sw,
+      width: 0.35.sw,
       height: 1.sh,
-      child: Padding(
-        padding: EdgeInsets.all(100.sp),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Add Book",
-                    style: Theme.of(context).textTheme.titleLarge,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Gap(50.h),
+            AppInputField(
+              hintText: 'Book Title',
+              editingController: titleController,
+            ),
+            Gap(18.h),
+            AppInputField(
+              hintText: 'Author',
+              editingController: authorController,
+            ),
+            Gap(18.h),
+            AppInputField(
+              isDescription: true,
+              hintText: 'Description',
+              editingController: descriptionController,
+            ),
+            Gap(18.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppInputField(
+                  isPrice: true,
+                  hintText: 'Book Price',
+                  editingController: priceController,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          const DepartmentDialog(),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      minimumSize: Size(0.16.sw, 100.h),
+                      elevation: 6
+                      // backgroundColor: AppColor.textColor,
+                      // foregroundColor: AppColor.backgroundColor.,
+                      ),
+                  child: const Text("Select Department(s)"),
+                ),
+              ],
+            ),
+            Gap(18.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: _pickImage,
+                  style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      minimumSize: Size(0.16.sw, 100.h),
+                      elevation: 6),
+                  child: Row(
+                    children: [
+                      if (_imageFile != null) const Icon(Icons.check),
+                      Text(
+                          _imageFile == null ? "Upload Image" : "Change Image"),
+                    ],
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColor.textColor,
-                      foregroundColor: AppColor.backgroundColor,
-                    ),
-                    onPressed: () => uploadBook(ref),
-                    child: const Text('Upload'),
-                  )
-                ],
-              ),
-              Gap(50.h),
-              AppInputField(
-                hintText: 'Book Title',
-                editingController: titleController,
-              ),
-              Gap(18.h),
-              AppInputField(
-                hintText: 'Author',
-                editingController: authorController,
-              ),
-              Gap(18.h),
-              AppInputField(
-                isDescription: true,
-                hintText: 'Description',
-                editingController: descriptionController,
-              ),
-              Gap(18.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppInputField(
-                    isPrice: true,
-                    hintText: 'Book Price',
-                    editingController: priceController,
+                ),
+                AppInputField(
+                  isStock: true,
+                  hintText: 'Stock Number',
+                  editingController: stockNoController,
+                ),
+              ],
+            ),
+            Gap(18.h),
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColor.textColor,
+                  foregroundColor: AppColor.backgroundColor,
+                  elevation: 6,
+                  minimumSize: Size(0.16.sw, 100.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            const DepartmentDialog(),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 10.h),
-                        minimumSize: Size(0.16.sw, 100.h),
-                        elevation: 6
-                        // backgroundColor: AppColor.textColor,
-                        // foregroundColor: AppColor.backgroundColor.,
-                        ),
-                    child: const Text("Select Department(s)"),
-                  ),
-                ],
+                ),
+                onPressed: () => uploadBook(ref),
+                child: isLoading
+                    ? const CircularProgressIndicator()
+                    : const Text('Upload'),
               ),
-              Gap(18.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: _pickImage,
-                    style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 10.h),
-                        minimumSize: Size(0.16.sw, 100.h),
-                        elevation: 6),
-                    child: Row(
-                      children: [
-                        if (_imageFile != null) const Icon(Icons.check),
-                        Text(_imageFile == null
-                            ? "Upload Image"
-                            : "Change Image"),
-                      ],
-                    ),
-                  ),
-                  AppInputField(
-                    isStock: true,
-                    hintText: 'Stock Number',
-                    editingController: stockNoController,
-                  ),
-                ],
+            ),
+            Gap(18.h),
+            if (ref.watch(uploadProvider).department.isNotEmpty)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                    'Selected Department(s):\n${ref.watch(uploadProvider).department.join('\n')}'),
               ),
-              Gap(18.h),
-              if (ref.watch(uploadProvider).department.isNotEmpty)
-                Text(
-                    'Selected Department(s):\n ${ref.watch(uploadProvider).department.join('\n')}'),
-            ],
-          ),
+          ],
         ),
       ),
     );

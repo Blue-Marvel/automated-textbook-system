@@ -121,21 +121,6 @@ class TextBookDetailCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                      if (!isStudent)
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.textColor,
-                              foregroundColor: AppColor.backgroundColor,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10.w, vertical: 5.h),
-                              elevation: 3,
-                            ),
-                            onPressed: () {},
-                            child: const Text('Edit'),
-                          ),
-                        ),
                     ],
                   ),
                 ),
