@@ -1,19 +1,16 @@
-import 'dart:html';
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:typed_data';
 
 import 'package:automated_texbook_system/model/book.dart';
-import 'package:automated_texbook_system/provider/auth_provider.dart';
 import 'package:automated_texbook_system/provider/upload_provider.dart';
 import 'package:automated_texbook_system/utill/colors.dart';
-import 'package:automated_texbook_system/utill/constant.dart';
 import 'package:automated_texbook_system/views/widgets/app_input.dart';
 import 'package:automated_texbook_system/views/widgets/department_dialog.dart';
 import 'package:automated_texbook_system/views/widgets/flash_bar.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -58,7 +55,7 @@ class _AddBookState extends ConsumerState<AddBook> {
       return;
     }
     TextBook textBook = TextBook(
-        id: ref.read(authProvider).librarian?.id ?? '',
+        id: '',
         title: titleController.text.trim(),
         description: descriptionController.text.trim(),
         author: authorController.text.trim(),
@@ -81,8 +78,9 @@ class _AddBookState extends ConsumerState<AddBook> {
 
       await ref.read(uploadProvider).addBook(textBook: textBook, file: file);
       ref.read(uploadProvider).department.clear();
-      ref.read(uploadProvider).setBookFuture();
+      ref.read(uploadProvider).checkedDepartment.clear();
     } catch (e) {
+      // ignore: use_build_context_synchronously
       FlashTopBar.flashBar(context, e.toString());
     }
     setState(() {
@@ -93,29 +91,29 @@ class _AddBookState extends ConsumerState<AddBook> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 0.35.sw,
-      height: 1.sh,
+      width: 360,
+      height: 786,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Gap(50.h),
+            Gap(50),
             AppInputField(
               hintText: 'Book Title',
               editingController: titleController,
             ),
-            Gap(18.h),
+            Gap(18),
             AppInputField(
               hintText: 'Author',
               editingController: authorController,
             ),
-            Gap(18.h),
+            Gap(18),
             AppInputField(
               isDescription: true,
               hintText: 'Description',
               editingController: descriptionController,
             ),
-            Gap(18.h),
+            Gap(18),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -133,8 +131,8 @@ class _AddBookState extends ConsumerState<AddBook> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10.h),
-                      minimumSize: Size(0.16.sw, 100.h),
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      minimumSize: Size(164, 100),
                       elevation: 6
                       // backgroundColor: AppColor.textColor,
                       // foregroundColor: AppColor.backgroundColor.,
@@ -143,15 +141,15 @@ class _AddBookState extends ConsumerState<AddBook> {
                 ),
               ],
             ),
-            Gap(18.h),
+            Gap(18),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
                   onPressed: _pickImage,
                   style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10.h),
-                      minimumSize: Size(0.16.sw, 100.h),
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      minimumSize: Size(164, 100),
                       elevation: 6),
                   child: Row(
                     children: [
@@ -168,7 +166,7 @@ class _AddBookState extends ConsumerState<AddBook> {
                 ),
               ],
             ),
-            Gap(18.h),
+            const Gap(18),
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
@@ -176,9 +174,9 @@ class _AddBookState extends ConsumerState<AddBook> {
                   backgroundColor: AppColor.textColor,
                   foregroundColor: AppColor.backgroundColor,
                   elevation: 6,
-                  minimumSize: Size(0.16.sw, 100.h),
+                  minimumSize: const Size(164, 100),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.r),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 onPressed: () => uploadBook(ref),
@@ -187,7 +185,7 @@ class _AddBookState extends ConsumerState<AddBook> {
                     : const Text('Upload'),
               ),
             ),
-            Gap(18.h),
+            const Gap(18),
             if (ref.watch(uploadProvider).department.isNotEmpty)
               Align(
                 alignment: Alignment.centerLeft,

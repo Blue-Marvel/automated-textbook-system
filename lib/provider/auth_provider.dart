@@ -26,7 +26,6 @@ class AuthProvider extends ChangeNotifier {
   FutureOr<void> studentRegister(
       {required UserModel userModel, required String password}) async {
     try {
-      print('print ${userModel.toString()}');
       _userModel = await _authServices.studentRegister(userModel, password);
     } catch (e) {
       rethrow;
@@ -48,20 +47,21 @@ class AuthProvider extends ChangeNotifier {
       {required String email, required String password}) async {
     try {
       _userModel = await _authServices.studentLogin(email, password);
+      // print(_userModel?.id);
+      notifyListeners();
     } catch (e) {
       rethrow;
     }
-    notifyListeners();
   }
 
   FutureOr<void> librarianLogin(
       {required String email, required String password}) async {
     try {
       _librarian = await _authServices.librarianLogin(email, password);
+      notifyListeners();
     } catch (e) {
       rethrow;
     }
-    notifyListeners();
   }
 
   Future<void> logout() async {

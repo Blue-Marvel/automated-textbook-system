@@ -1,1 +1,31 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"automated-textbook-system","appId":"1:299319567459:android:d7279285d9812f1009c456","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"automated-textbook-system","configurations":{"android":"1:299319567459:android:d7279285d9812f1009c456","ios":"1:299319567459:ios:604fa3ae3e82139109c456","web":"1:299319567459:web:665b2c9a6a2918a609c456"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "automated-textbook-system",
+          "appId": "1:299319567459:android:d7279285d9812f1009c456",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "automated-textbook-system",
+          "configurations": {
+            "android": "1:299319567459:android:d7279285d9812f1009c456",
+            "ios": "1:299319567459:ios:604fa3ae3e82139109c456",
+            "web": "1:299319567459:web:665b2c9a6a2918a609c456"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

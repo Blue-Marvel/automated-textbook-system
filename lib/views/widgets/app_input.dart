@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppInputField extends StatefulWidget {
   final String hintText;
@@ -25,18 +24,9 @@ class AppInputField extends StatefulWidget {
 
 class _AppInputFieldState extends State<AppInputField> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: widget.isStock || widget.isPrice
-          ? 260.w
-          : 1.sw < 360
-              ? 2.sw
-              : 500.w,
+      width: widget.isStock || widget.isPrice ? 260 : 500,
       child: Column(
         children: [
           Card(
@@ -65,7 +55,7 @@ class _AppInputFieldState extends State<AppInputField> {
                     : widget.isStock
                         ? const Text('00')
                         : null,
-                contentPadding: EdgeInsets.all(20.w),
+                contentPadding: const EdgeInsets.all(20),
                 hintStyle: Theme.of(context).textTheme.bodyMedium,
                 hintText: widget.hintText,
                 border: OutlineInputBorder(

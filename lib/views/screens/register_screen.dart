@@ -12,9 +12,9 @@ import 'package:custom_sliding_segmented_control/custom_sliding_segmented_contro
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zoom_widget/zoom_widget.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -38,22 +38,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           hintText: 'Full Name',
           editingController: fullNameController,
         ),
-        Gap(10.h),
+        const Gap(10),
         AppInputField(
           hintText: 'Email',
           editingController: emailController,
         ),
-        Gap(10.h),
+        const Gap(10),
         AppInputField(
           hintText: 'Matric Number',
           editingController: matNoController,
         ),
-        Gap(10.h),
+        const Gap(10),
         AppInputField(
           hintText: 'Password',
           editingController: passwordController,
         ),
-        Gap(10.h),
+        const Gap(10),
         AppInputField(
           hintText: 'Confirm Password',
           editingController: confirmPasswordController,
@@ -64,7 +64,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           hintText: 'Email',
           editingController: emailController,
         ),
-        Gap(10.h),
+        const Gap(10),
         AppInputField(
           hintText: 'Password',
           editingController: passwordController,
@@ -105,7 +105,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           .read(authProvider)
           .studentRegister(userModel: userModel, password: password);
       FlashTopBar.flashBar(context, "Registeration Successful");
-      context.push(HomeScreen.routeName);
+      context.pushReplacement(HomeScreen.routeName);
     } catch (e) {
       FlashTopBar.flashBar(context, "An Error occured: ${e.toString()}");
     }
@@ -124,7 +124,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       await ref
           .read(authProvider)
           .studentLogin(email: email, password: password);
-      context.push(HomeScreen.routeName);
+      context.pushReplacement(HomeScreen.routeName);
     } catch (e) {
       FlashTopBar.flashBar(context, "An Error occured: ${e.toString()}");
     }
@@ -139,7 +139,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           child: Container(
             decoration: BoxDecoration(
                 color: AppColor.textColor.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(20.r),
+                borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
                     color: AppColor.textColor.withOpacity(0.2),
@@ -150,19 +150,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ]),
             // width: 900.w,
             // height: 1.sh,
-            padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 50.h),
-            margin: EdgeInsets.symmetric(vertical: 10.h),
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+            margin: const EdgeInsets.symmetric(vertical: 10),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Gap(50.h),
+                const Gap(50),
                 Text(
                   "Automated Textbook System",
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontSize: 30.sp,
+                        fontSize: 30,
                       ),
                 ),
-                Gap(20.h),
+                const Gap(20),
                 CustomSlidingSegmentedControl(
                   children: {
                     0: Text(
@@ -190,31 +190,31 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     setState(() => isRegister = !isRegister);
                   },
                 ),
-                Gap(20.h),
+                const Gap(20),
                 ...isRegister ? registerForm() : loginForm(),
-                Gap(20.h),
+                const Gap(20),
                 isRegister
                     ? AppButton(
                         placeholder: isLoading
-                            ? SizedBox(
-                                width: 20.sp,
-                                height: 20.sp,
-                                child: const CircularProgressIndicator(),
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(),
                               )
                             : const Text('Register'),
                         onPressed: register,
                       )
                     : AppButton(
                         placeholder: isLoading
-                            ? SizedBox(
-                                width: 20.sp,
-                                height: 20.sp,
-                                child: const CircularProgressIndicator(),
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(),
                               )
                             : const Text('Login'),
                         onPressed: login,
                       ),
-                Gap(10.h),
+                const Gap(10),
                 Text.rich(
                   TextSpan(children: [
                     const TextSpan(
@@ -232,7 +232,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     )
                   ]),
                 ),
-                Gap(15.h),
+                const Gap(15),
               ],
             ),
           ),

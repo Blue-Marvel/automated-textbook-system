@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zoom_widget/zoom_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +27,7 @@ void main() async {
           options: DefaultFirebaseOptions.currentPlatform);
     }
   } catch (e) {
-    print('Firebase initialization error: $e');
+    rethrow;
   }
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -35,28 +35,17 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-    return ScreenUtilInit(
-      designSize: Size(
-        MediaQuery.sizeOf(context).width < 1024
-            ? 1024
-            : MediaQuery.sizeOf(context).width,
-        MediaQuery.sizeOf(context).height < 1024
-            ? 1024
-            : MediaQuery.sizeOf(context).height,
-      ),
-      child: MaterialApp.router(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: AppThemeData.theme(),
-        routerConfig: routes,
-      ),
+    return MaterialApp.router(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: AppThemeData.theme(),
+      routerConfig: routes,
     );
   }
 }

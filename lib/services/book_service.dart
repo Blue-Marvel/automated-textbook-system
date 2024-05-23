@@ -1,4 +1,3 @@
-import 'dart:html' as html;
 import 'dart:typed_data';
 
 import 'package:automated_texbook_system/model/book.dart';
@@ -24,18 +23,20 @@ class BookService {
           .putData(file, SettableMetadata(contentType: 'image/png'));
 
       final downloadUrl = await uploadTask.ref.getDownloadURL();
-      final updatedTextBook = textBook.copyWith(imageUrl: downloadUrl);
+      final docRef = _firestore.collection('books').doc();
+      final updatedTextBook =
+          textBook.copyWith(imageUrl: downloadUrl, id: docRef.id);
 
-      await _firestore.collection('books').add(updatedTextBook.toMap());
+      await docRef.set(updatedTextBook.toMap());
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<List<TextBook>> getBooks() async {
+  Stream<List<TextBook>> getBooks() {
     try {
-      final snapshot = await _firestore.collection('books').get();
-      return snapshot.docs.map((doc) => TextBook.fromMap(doc.data())).toList();
+      return _firestore.collection('books').snapshots().map((snapshot) =>
+          snapshot.docs.map((docs) => TextBook.fromMap(docs.data())).toList());
     } catch (e) {
       print(e.toString());
       rethrow;

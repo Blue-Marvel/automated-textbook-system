@@ -17,20 +17,13 @@ class UploadProvider extends ChangeNotifier {
   final List<String> _department = [];
   final List<bool> _checkedDepartment = [];
   List<TextBook> _textBookList = [];
-  Future<List<TextBook>> _bookFuture = Future.value([]);
 
   List<String> get department => _department;
   List<bool> get checkedDepartment => _checkedDepartment;
   List<TextBook> get textBookList => _textBookList;
-  Future<List<TextBook>> get bookFuture => _bookFuture;
 
   void setDepartment(String department) {
     _department.add(department);
-    notifyListeners();
-  }
-
-  void setBookFuture() {
-    _bookFuture = getBooks();
     notifyListeners();
   }
 
@@ -48,11 +41,15 @@ class UploadProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<TextBook>> getBooks() async {
+  Stream<List<TextBook>> getBooks() {
     try {
-      _textBookList = await _bookService.getBooks();
-      notifyListeners();
-      return _textBookList;
+      // notifyListeners();
+
+      _bookService.getBooks().listen((books) {
+        _textBookList = books;
+        notifyListeners();
+      });
+      return _bookService.getBooks();
     } catch (e) {
       rethrow;
     }

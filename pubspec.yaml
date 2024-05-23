@@ -37,7 +37,6 @@ dependencies:
   flutter_riverpod: ^2.5.1
   firebase_auth: ^4.19.5
   firebase_core: ^2.31.0
-  flutter_screenutil: ^5.9.1
   gap: ^3.0.1
   cloud_firestore: ^4.17.3
   another_flushbar: ^1.12.30
@@ -48,7 +47,9 @@ dependencies:
   firebase_storage: ^11.7.5
   image_picker: ^1.1.1
   cached_network_image: ^3.3.1
+  zoom_widget: ^2.0.1
 
+  flutter_screenutil: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

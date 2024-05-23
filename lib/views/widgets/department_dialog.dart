@@ -3,7 +3,6 @@ import 'package:automated_texbook_system/utill/colors.dart';
 import 'package:automated_texbook_system/utill/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
@@ -46,19 +45,19 @@ class _DepartmentDialogState extends ConsumerState<DepartmentDialog> {
                 },
               ),
             ),
-            Gap(10.w),
+            const Gap(10),
             ElevatedButton(
               onPressed: () {
                 context.pop();
-                print(ref.watch(uploadProvider).department);
+                // print(ref.watch(uploadProvider).department);
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: AppColor.textColor,
-                  minimumSize: Size(200.w, 100.h),
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  minimumSize: const Size(200, 100),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.r),
+                    borderRadius: BorderRadius.circular(50),
                   )),
               child: const Text(
                 'Done',
@@ -70,8 +69,8 @@ class _DepartmentDialogState extends ConsumerState<DepartmentDialog> {
         actions: [
           //display a wrap list of departments with checkboxes and a search bar
           SizedBox(
-            width: 0.8.sw,
-            height: 0.7.sh,
+            width: 820,
+            height: 550.2,
             child: SingleChildScrollView(
               child: Wrap(
                 children: [

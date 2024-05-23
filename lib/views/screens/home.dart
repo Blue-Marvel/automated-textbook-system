@@ -2,12 +2,13 @@
 
 import 'package:automated_texbook_system/model/book.dart';
 import 'package:automated_texbook_system/provider/auth_provider.dart';
+import 'package:automated_texbook_system/provider/cart_provider.dart';
+import 'package:automated_texbook_system/provider/upload_provider.dart';
 import 'package:automated_texbook_system/views/widgets/flash_bar.dart';
 import 'package:automated_texbook_system/views/widgets/home_widget/book_detail_card.dart';
 import 'package:automated_texbook_system/views/widgets/home_widget/home_list_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -20,45 +21,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   int value = 0;
-
-  List<TextBook> textBooks = [
-    TextBook(
-      stockNumber: 34,
-      id: '1',
-      title: 'Python Crash Course',
-      description: 'A hands-on, project-based introduction to programming.',
-      author: 'Eric Matthes',
-      imageUrl:
-          'https://plus.unsplash.com/premium_photo-1682125776589-e899882259c3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dGV4dGJvb2t8ZW58MHx8MHx8fDA%3D',
-      price: 39.99,
-      departments: ['Computer Science', 'Software Engineering'],
-    ),
-    TextBook(
-      stockNumber: 34,
-      id: '2',
-      title: 'Flutter for Beginners',
-      description: 'A comprehensive guide to Flutter development.',
-      author: 'John Doe',
-      imageUrl:
-          'https://images.unsplash.com/photo-1588912914017-923900a34710?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dGV4dGJvb2t8ZW58MHx8MHx8fDA%3D',
-      price: 29.99,
-      departments: ['Mobile Development', 'Computer Science'],
-    ),
-    TextBook(
-      stockNumber: 34,
-      id: '3',
-      title: 'Data Science from Scratch',
-      description: 'First principles with Python.',
-      author: 'Joel Grus',
-      imageUrl:
-          'https://images.unsplash.com/photo-1532543307581-8b01a7ff954f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dGV4dGJvb2t8ZW58MHx8MHx8fDA%3D',
-      price: 49.99,
-      departments: [
-        'Data Science',
-        'Machine Learning',
-      ],
-    ),
-  ];
+  Stream<List<TextBook>>? getBooks;
 
   void logout() async {
     try {
@@ -66,6 +29,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       context.push('/');
     } catch (e) {
       FlashTopBar.flashBar(context, e.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    ref.read(authProvider).userModel?.id;
+    getBooks = ref.read(uploadProvider).getBooks();
+    getCart();
+    super.initState();
+  }
+
+  getCart() async {
+    if (ref.read(authProvider).userModel?.id != null) {
+      await ref.read(cartProvider).setCart(
+            uid: ref.read(authProvider).userModel?.id ?? '',
+          );
     }
   }
 
@@ -82,7 +61,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         actions: [
           TextButton(
             onPressed: () {},
-            child: const Text('Cart (0)'),
+            child: Text('Cart (${ref.watch(cartProvider).cart})'),
           ),
           TextButton(
             onPressed: () {},
@@ -101,35 +80,56 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       body: SingleChildScrollView(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            SizedBox(
-              height: 1.sh,
-              width: 0.4.sw,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ...List.generate(
-                      textBooks.length,
-                      (index) => GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            value = index;
-                          });
-                        },
-                        child: HomeListCard(
-                          //if index = currentindex change color
-                          textBook: textBooks[index],
-                        ),
+            StreamBuilder(
+                stream: getBooks,
+                builder: (context, AsyncSnapshot<List<TextBook>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+
+                  if (snapshot.data == null || snapshot.data!.isEmpty) {
+                    return const Text('No Textbook added yet');
+                  }
+
+                  final textBooks = snapshot.data!;
+                  return SizedBox(
+                    height: 786,
+                    width: 600,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ...List.generate(
+                            textBooks.length,
+                            (index) => GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  value = index;
+                                });
+                              },
+                              child: HomeListCard(
+                                //if index = currentindex change color
+                                textBook: textBooks[index],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  );
+                }),
+            if (ref.watch(uploadProvider).textBookList.isNotEmpty)
+              TextBookDetailCard(
+                textBook: ref.watch(uploadProvider).textBookList[value],
+                isStudent: true,
               ),
-            ),
-            TextBookDetailCard(
-              textBook: textBooks[value],
-              isStudent: true,
-            )
+            if (ref.watch(uploadProvider).textBookList.isEmpty)
+              const Text('No Textbook added yet'),
           ],
         ),
       ),

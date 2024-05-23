@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors
 
 import 'package:automated_texbook_system/model/book.dart';
 import 'package:automated_texbook_system/provider/auth_provider.dart';
@@ -9,7 +9,6 @@ import 'package:automated_texbook_system/views/widgets/home_widget/book_detail_c
 import 'package:automated_texbook_system/views/widgets/home_widget/home_list_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
@@ -26,12 +25,7 @@ class _LibrarianDashboardScreenState
     extends ConsumerState<LibrarianDashboardScreen> {
   int value = 0;
   bool addBook = false;
-
-  @override
-  void initState() {
-    ref.read(uploadProvider).setBookFuture();
-    super.initState();
-  }
+  Stream<List<TextBook>>? getBooks;
 
   void logout() async {
     try {
@@ -40,6 +34,12 @@ class _LibrarianDashboardScreenState
     } catch (e) {
       FlashTopBar.flashBar(context, e.toString());
     }
+  }
+
+  @override
+  void initState() {
+    getBooks = ref.read(uploadProvider).getBooks();
+    super.initState();
   }
 
   @override
@@ -55,29 +55,31 @@ class _LibrarianDashboardScreenState
         ),
         actions: [
           ElevatedButton(
-            onPressed: () => setState(() => addBook = !addBook),
+            onPressed: () => setState(() {
+              addBook = !addBook;
+            }),
             child: Text(addBook ? 'Back Home' : 'Add Book'),
           ),
-          Gap(16.w),
+          Gap(16),
           ElevatedButton(
             onPressed: () {},
             child: const Text('Profile'),
           ),
-          Gap(16.w),
+          Gap(16),
           ElevatedButton.icon(
             onPressed: logout,
             icon: const Icon(Icons.logout),
             label: const Text('Logout'),
           ),
-          Gap(16.w),
+          Gap(16),
         ],
       ),
       body: SingleChildScrollView(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            FutureBuilder(
-              future: ref.read(uploadProvider).bookFuture,
+            StreamBuilder(
+              stream: getBooks,
               builder: (BuildContext context,
                   AsyncSnapshot<List<TextBook>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -94,8 +96,8 @@ class _LibrarianDashboardScreenState
 
                 final data = snapshot.data!;
                 return SizedBox(
-                  height: 1.sh,
-                  width: 0.4.sw,
+                  height: 786,
+                  width: 400,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -126,8 +128,8 @@ class _LibrarianDashboardScreenState
                         textBook: ref.read(uploadProvider).textBookList[value],
                       )
                     : SizedBox(
-                        height: 1.sh,
-                        width: 0.4.sw,
+                        height: 786,
+                        width: 400,
                         child: const Center(
                           child: Text('No Textbook added yet'),
                         ),

@@ -1,9 +1,7 @@
 import 'package:automated_texbook_system/model/book.dart';
 import 'package:automated_texbook_system/utill/colors.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
 class HomeListCard extends StatelessWidget {
@@ -18,17 +16,17 @@ class HomeListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: SizedBox(
-        height: 0.2.sh,
-        width: 0.4.sw,
+        height: 158,
+        width: 600,
         child: LayoutBuilder(builder: (context, BoxConstraints constraints) {
           return Row(
             children: [
               Container(
-                margin: EdgeInsets.all(8.sp),
+                margin: const EdgeInsets.all(8),
                 width: constraints.maxWidth * 0.3,
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
                     image: ExtendedNetworkImageProvider(
                       textBook.imageUrl,
@@ -39,7 +37,7 @@ class HomeListCard extends StatelessWidget {
                 ),
                 // child: Image.network(textBook.imageUrl),
               ),
-              Gap(12.w),
+              const Gap(12),
               SizedBox(
                 width: constraints.maxWidth * 0.6,
                 child: Column(
@@ -73,7 +71,7 @@ class HomeListCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Gap(20.h),
+                    const Gap(20),
                   ],
                 ),
               )
