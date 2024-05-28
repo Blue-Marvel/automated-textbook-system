@@ -4,6 +4,7 @@ import 'package:automated_texbook_system/model/book.dart';
 import 'package:automated_texbook_system/provider/auth_provider.dart';
 import 'package:automated_texbook_system/provider/cart_provider.dart';
 import 'package:automated_texbook_system/provider/upload_provider.dart';
+import 'package:automated_texbook_system/views/screens/cart_screen.dart';
 import 'package:automated_texbook_system/views/widgets/flash_bar.dart';
 import 'package:automated_texbook_system/views/widgets/home_widget/book_detail_card.dart';
 import 'package:automated_texbook_system/views/widgets/home_widget/home_list_card.dart';
@@ -60,7 +61,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () async {
+              final cartList = await ref
+                  .read(cartProvider)
+                  .cartBooks(ref.read(authProvider).userModel?.id ?? '');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => CartScreen(cart: cartList)));
+            },
             child: Text('Cart (${ref.watch(cartProvider).cart})'),
           ),
           TextButton(

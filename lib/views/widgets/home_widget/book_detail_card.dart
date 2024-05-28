@@ -190,6 +190,14 @@ class _TextBookDetailCardState extends State<TextBookDetailCard> {
                                     onPressed: () async {
                                       var bookId = widget.textBook.id;
 
+                                      if (widget.textBook.id == '' ||
+                                          counterController.text.trim() == '' ||
+                                          widget.textBook.title == '') {
+                                        print("error");
+                                        return;
+                                      }
+                                      ;
+
                                       var cart = Cart(
                                         id: '',
                                         bookId: widget.textBook.id,
@@ -221,15 +229,41 @@ class _TextBookDetailCardState extends State<TextBookDetailCard> {
                                   const Gap(16),
                                   ElevatedButton(
                                     onPressed: () async {
-                                      if (bookId == null) return;
+                                      await showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: const Text('Remove Book'),
+                                              content: const Text(
+                                                  'This will delete all copies of this book from your cart, click "Remove" to continue'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Cancel'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    if (bookId == null) return;
 
-                                      await ref.read(cartProvider).removeCart(
-                                          bookId: bookId!,
-                                          uid: ref
-                                                  .read(authProvider)
-                                                  .userModel
-                                                  ?.id ??
-                                              '');
+                                                    await ref
+                                                        .read(cartProvider)
+                                                        .removeCart(
+                                                            bookId: bookId!,
+                                                            uid: ref
+                                                                    .read(
+                                                                        authProvider)
+                                                                    .userModel
+                                                                    ?.id ??
+                                                                '');
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Remove'),
+                                                ),
+                                              ],
+                                            );
+                                          });
                                     },
                                     child: const Text('Remove'),
                                   ),

@@ -38,6 +38,9 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
+  Future<List<Cart>> cartBooks(uid) async =>
+      await _cartServices.getCartBooks(uid: uid);
+
   FutureOr<void> removeCart(
       {required String bookId, required String uid}) async {
     _cart--;

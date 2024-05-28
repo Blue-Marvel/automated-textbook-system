@@ -53,7 +53,7 @@ class _DepartmentDialogState extends ConsumerState<DepartmentDialog> {
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: AppColor.textColor,
-                  minimumSize: const Size(200, 100),
+                  minimumSize: const Size(200, 60),
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -70,7 +70,7 @@ class _DepartmentDialogState extends ConsumerState<DepartmentDialog> {
           //display a wrap list of departments with checkboxes and a search bar
           SizedBox(
             width: 820,
-            height: 550.2,
+            height: 400,
             child: SingleChildScrollView(
               child: Wrap(
                 children: [

@@ -91,7 +91,7 @@ class _AddBookState extends ConsumerState<AddBook> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 360,
+      width: 450,
       height: 786,
       child: SingleChildScrollView(
         child: Column(
@@ -132,7 +132,7 @@ class _AddBookState extends ConsumerState<AddBook> {
                   },
                   style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 10),
-                      minimumSize: Size(164, 100),
+                      minimumSize: Size(164, 60),
                       elevation: 6
                       // backgroundColor: AppColor.textColor,
                       // foregroundColor: AppColor.backgroundColor.,
@@ -149,7 +149,10 @@ class _AddBookState extends ConsumerState<AddBook> {
                   onPressed: _pickImage,
                   style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 10),
-                      minimumSize: Size(164, 100),
+                      minimumSize: Size(
+                        164,
+                        60,
+                      ),
                       elevation: 6),
                   child: Row(
                     children: [
@@ -174,7 +177,7 @@ class _AddBookState extends ConsumerState<AddBook> {
                   backgroundColor: AppColor.textColor,
                   foregroundColor: AppColor.backgroundColor,
                   elevation: 6,
-                  minimumSize: const Size(164, 100),
+                  minimumSize: const Size(164, 60),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

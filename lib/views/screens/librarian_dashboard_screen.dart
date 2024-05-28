@@ -97,7 +97,7 @@ class _LibrarianDashboardScreenState
                 final data = snapshot.data!;
                 return SizedBox(
                   height: 786,
-                  width: 400,
+                  width: 600,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
