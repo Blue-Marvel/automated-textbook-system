@@ -201,10 +201,11 @@ class _TextBookDetailCardState extends State<TextBookDetailCard> {
                                       var cart = Cart(
                                         id: '',
                                         bookId: widget.textBook.id,
-                                        bookTtile: widget.textBook.title,
+                                        bookTitle: widget.textBook.title,
                                         quantity: int.parse(
                                             counterController.text.trim()),
                                         price: widget.textBook.price,
+                                        imageUrl: widget.textBook.imageUrl,
                                       );
                                       try {
                                         await ref.read(cartProvider).addCart(

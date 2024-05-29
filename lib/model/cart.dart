@@ -3,16 +3,18 @@ import 'dart:convert';
 class Cart {
   final String? id;
   final String bookId;
-  final String bookTtile;
+  final String bookTitle;
   final int quantity;
   final double price;
+  final String? imageUrl;
 
   Cart({
     this.id,
     required this.bookId,
-    required this.bookTtile,
+    required this.bookTitle,
     required this.quantity,
     required this.price,
+    this.imageUrl,
   });
 
   Cart copyWith({
@@ -25,9 +27,10 @@ class Cart {
     return Cart(
       id: id ?? this.id,
       bookId: bookId ?? this.bookId,
-      bookTtile: bookTtile ?? this.bookTtile,
+      bookTitle: bookTtile ?? this.bookTitle,
       quantity: quantity ?? this.quantity,
       price: price ?? this.price,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -35,7 +38,7 @@ class Cart {
     return {
       'id': id,
       'bookId': bookId,
-      'bookTtile': bookTtile,
+      'bookTtile': bookTitle,
       'quantity': quantity,
       'price': price,
     };
@@ -45,9 +48,10 @@ class Cart {
     return Cart(
       id: map['id'] ?? '',
       bookId: map['bookId'] ?? '',
-      bookTtile: map['bookTtile'] ?? '',
+      bookTitle: map['bookTtile'] ?? '',
       quantity: map['quantity']?.toInt() ?? 0,
       price: map['price'] as double,
+      imageUrl: map['imageUrl'],
     );
   }
 
@@ -57,6 +61,6 @@ class Cart {
 
   @override
   String toString() {
-    return 'Cart(id: $id, bookId: $bookId, bookTtile: $bookTtile, quantity: $quantity, price: $price)';
+    return 'Cart(id: $id, bookId: $bookId, bookTtile: $bookTitle, quantity: $quantity, price: $price imageUrl: $imageUrl)';
   }
 }
