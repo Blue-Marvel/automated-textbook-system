@@ -6,7 +6,7 @@ class Cart {
   final String bookTitle;
   final int quantity;
   final double price;
-  final String? imageUrl;
+  final String imageUrl;
 
   Cart({
     this.id,
@@ -14,7 +14,7 @@ class Cart {
     required this.bookTitle,
     required this.quantity,
     required this.price,
-    this.imageUrl,
+    required this.imageUrl,
   });
 
   Cart copyWith({
@@ -23,6 +23,7 @@ class Cart {
     String? bookTtile,
     int? quantity,
     double? price,
+    String? imageUrl,
   }) {
     return Cart(
       id: id ?? this.id,
@@ -41,6 +42,7 @@ class Cart {
       'bookTtile': bookTitle,
       'quantity': quantity,
       'price': price,
+      'imageUrl': imageUrl,
     };
   }
 

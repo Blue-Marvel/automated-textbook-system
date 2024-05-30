@@ -30,7 +30,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           child: GridView(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 5,
+              crossAxisCount: 4,
             ),
             children: widget.cart.isEmpty
                 ? [
@@ -101,6 +101,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   }
 
   Widget cartListCard(Cart cart) {
+    print(cart.imageUrl);
     return Container(
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(8),
@@ -127,7 +128,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           const Gap(8),
           Text("Price: ${cart.price}"),
           const Gap(8),
-          if (cart.imageUrl != null) Image.network(cart.imageUrl!),
+          Image.network(
+            cart.imageUrl,
+            width: 150,
+          ),
         ],
       ),
     );

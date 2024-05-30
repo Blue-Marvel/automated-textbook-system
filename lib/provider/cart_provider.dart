@@ -28,6 +28,8 @@ class CartProvider extends ChangeNotifier {
 
   FutureOr<void> setCart({required String uid}) async {
     try {
+      _cart = 0;
+      notifyListeners();
       final carts = await _cartServices.getCartBooks(uid: uid);
       for (Cart cart in carts) {
         _cart += cart.quantity;
