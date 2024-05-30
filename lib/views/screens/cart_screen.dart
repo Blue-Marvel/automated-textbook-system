@@ -130,7 +130,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           const Gap(8),
           Image.network(
             cart.imageUrl,
-            width: 150,
+            width: 100,
           ),
         ],
       ),
