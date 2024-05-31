@@ -156,7 +156,7 @@ class _RegisterScreenState extends ConsumerState<LibrarianRegister> {
               children: [
                 const Gap(50),
                 Text(
-                  "Automated Textbook System",
+                  "Textbook Purchasing System",
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         fontSize: 30,
                       ),
@@ -165,13 +165,13 @@ class _RegisterScreenState extends ConsumerState<LibrarianRegister> {
                 CustomSlidingSegmentedControl(
                   children: {
                     0: Text(
-                      'Librarain Register',
+                      'Librarian Register',
                       style: TextStyle(
                         color: isRegister ? Colors.black : Colors.white,
                       ),
                     ),
                     1: Text(
-                      'Librarain Login',
+                      'Librarian Login',
                       style: TextStyle(
                         color: isRegister ? Colors.white : Colors.black,
                       ),
